@@ -349,7 +349,7 @@ public Task VerifyJsonJToken()
     return VerifyJson(target);
 }
 ```
-<sup><a href='/src/Verify.Tests/Serialization/SerializationTests.cs#L1848-L1880' title='Snippet source file'>snippet source</a> | <a href='#snippet-verifyjson' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Verify.Tests/Serialization/SerializationTests.cs#L1866-L1898' title='Snippet source file'>snippet source</a> | <a href='#snippet-verifyjson' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Results in:
@@ -398,6 +398,35 @@ public static class StaticSettingsUsage
 }
 ```
 <sup><a href='/src/Verify.Tests/StaticSettings.cs#L1-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-StaticSettings.cs' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## VerifyResult
+
+In some scenarios it can be helpful to get access to the resulting `*.verified.*` files after a successful run. For example to do an explicit check for contains or not-contains in the resulting text. To allow this all Verify methods return a `VerifyResult`.
+
+<!-- snippet: VerifyResult -->
+<a id='snippet-verifyresult'></a>
+```cs
+var result = await Verify(
+    new
+    {
+        Property = "Value To Check"
+    });
+Assert.Contains("Value To Check", result.Text);
+```
+<sup><a href='/src/Verify.Tests/Tests.cs#L556-L565' title='Snippet source file'>snippet source</a> | <a href='#snippet-verifyresult' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+If using `Verifier.Throws`, the resulting `Exception` will also be accessible
+
+<!-- snippet: ExceptionResult -->
+<a id='snippet-exceptionresult'></a>
+```cs
+var result = await Verifier.Throws(MethodThatThrows);
+Assert.NotNull(result.Exception);
+```
+<sup><a href='/src/Verify.Tests/Tests.cs#L573-L578' title='Snippet source file'>snippet source</a> | <a href='#snippet-exceptionresult' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

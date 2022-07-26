@@ -135,4 +135,22 @@
 
         return property;
     }
+
+    protected override JsonArrayContract CreateArrayContract(Type objectType)
+    {
+        var jsonArrayContract = base.CreateArrayContract(objectType);
+        if (objectType != typeof(NameValueCollection))
+        {
+            if (!IsArrayWrapper(objectType))
+            {
+                jsonArrayContract.Converter = new ArrayConverter();
+            }
+        }
+
+        return jsonArrayContract;
+    }
+
+    static bool IsArrayWrapper(Type objectType) =>
+        objectType.IsGenericType &&
+        objectType.GetGenericTypeDefinition() == typeof(ArrayWrapper<>);
 }
