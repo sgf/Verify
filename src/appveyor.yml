@@ -7,24 +7,24 @@ environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 build_script:
 - pwsh: |
-    if ($isWindows)
+  if ($isWindows)
+  {
+    Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile ./dotnet-install.ps1
+    ./dotnet-install.ps1 -InstallDir 'C:\Program Files\dotnet'
+  }
+  else
+  {
+    Invoke-WebRequest https://dot.net/v1/dotnet-install.sh -OutFile ./dotnet-install.sh
+    sudo chmod u+x dotnet-install.sh
+    if ($isMacOS)
     {
-      Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile ./dotnet-install.ps1
-      ./dotnet-install.ps1 -InstallDir 'C:\Program Files\dotnet'
+      sudo ./dotnet-install.sh --install-dir /usr/local/share/dotnet
     }
     else
     {
-      Invoke-WebRequest https://dot.net/v1/dotnet-install.sh -OutFile ./dotnet-install.sh
-      sudo chmod u+x dotnet-install.sh
-      if ($isMacOS)
-      {
-        sudo ./dotnet-install.sh --install-dir /usr/local/share/dotnet
-      }
-      else
-      {
-        sudo ./dotnet-install.sh --install-dir /usr/share/dotnet
-      }
+      sudo ./dotnet-install.sh --install-dir /usr/share/dotnet
     }
+  }
 - dotnet build src --configuration Release --nologo
 #- dotnet test src --configuration Release --no-build --no-restore --nologo
 
